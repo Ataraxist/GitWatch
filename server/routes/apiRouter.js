@@ -6,19 +6,29 @@ const apiRouter = express.Router();
 apiRouter.get(
   '/github/trending',
   apiController.getGitHubData,
+  apiController.getGitHubAggregate,
   (req, res, next) => {
     console.log('✨ Sending GitHub Trending Data');
-    return res.status(200).json(res.locals.data);
+    return res.status(200).json(res.locals);
   }
 );
 
 apiRouter.get(
-  '/stackoverflow/trending',
-  apiController.getStackOverflowData,
+  '/github/calculated',
+  apiController.getGitHubAggregate,
   (req, res, next) => {
-    console.log('🎇 Sending StackOverflow Trending Data');
-    return res.status(200).json(res.locals.data);
+    console.log('🔢 Sending GitHub Aggregate Data');
+    return res.status(200).json(res.locals.getGitHubAggregate);
   }
 );
+
+// apiRouter.get(
+//   '/stackoverflow/trending',
+//   apiController.getStackOverflowData,
+//   (req, res, next) => {
+//     console.log('🎇 Sending StackOverflow Trending Data');
+//     return res.status(200).json(res.locals.data);
+//   }
+// );
 
 export default apiRouter;

@@ -5,9 +5,11 @@ dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import apiRouter from './routes/apiRouter.js';
+import './helpers/cronJob.js';
+
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 9001;
 
 app.use(express.json()); // Parse JSON request bodies
 app.use(cors()); // Allow cross-origin requests (useful for React frontend)
