@@ -1,17 +1,6 @@
 /*
 TODO Aggregating the Data
-For GitHub:
-Ok, so i have created the push to the database, but its firing for the last 7 days.
-Some things to think about:
-I need to switch this to a scheduled task that runs daily, and updates the database
-
-For both:
 I need to change my package.json to launch both the client and the server.
-I need to generate some aggregate data to report against. 
-Maybe that is done client side on render?
-Or maybe that is better to make a 3rd schema for them 
-store the values and then just send them to the client 
-when there is a get request for it.
 
 TODO For Stack Overflow:
 * Demoted to Stretch Goal
@@ -22,9 +11,7 @@ Need to also make this scheduled
 Need to also change the date range
 Need to also auto purge=
 */
-
-import { fetchGitHubTrendingData } from '../helpers/fetchGitHubTrendingData.js';
-import { GitHubAggregate } from '../db.js';
+import { GitHubAggregate, Repo } from '../db.js';
 
 const apiController = {};
 
@@ -32,9 +19,14 @@ apiController.getGitHubData = async (req, res, next) => {
   console.log('📈 Getting Trending Github Data!');
   const number = req.query.days || 7; // Use 7 Days unless called with a value in params
   try {
-    const result = await fetchGitHubTrendingData(number);
-    console.log('Database update result:', result);
-    res.locals.fetchGitHubTrendingData = result;
+    const fromDate = new Date();
+    fromDate.setDate(fromDate.getDate() - number);
+
+    const repos = await Repo.find({ updated_at: { $gte: fromDate } }).sort({
+      stargazers_count: -1, // Sort by stars (trending)
+    });
+
+    res.locals.getGitHubData = repos;
     return next();
   } catch (error) {
     return next({

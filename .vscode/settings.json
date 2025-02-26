@@ -1,4 +1,4 @@
 {
-  "editor.tabSize": 4,
-  "editor.tabCompletion": "on"
+  "editor.tabCompletion": "on",
+  "editor.tabSize": 2
 }

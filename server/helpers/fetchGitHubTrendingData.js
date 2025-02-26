@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'; // Load API token
 dotenv.config({ path: path.resolve('../server', '.env') });
-console.log(process.env.GITHUB_TOKEN);
+
 import path from 'path';
 import axios from 'axios'; // API requests
 import Bottleneck from 'bottleneck'; // Rate limiting

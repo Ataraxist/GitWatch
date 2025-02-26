@@ -55,7 +55,13 @@ const GitHubAggregateSchema = new mongoose.Schema({
     '4 Years Old': Number,
     '5+ Years Old': Number,
   },
-  starredCounts: [{ name: String, stars: Number, url: String }],
+  starDistribution: {
+    '1-10': Number,
+    '11-50': Number,
+    '51-200': Number,
+    '201-1000': Number,
+    '1001+': Number,
+  },
 });
 const GitHubAggregate = mongoose.model(
   'GitHubAggregate',
