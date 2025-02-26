@@ -2,7 +2,7 @@ import React, { Suspense, useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 // import TrendingRepos from './components/TrendingRepos';
 import Switch from 'react-switch';
-import { Moon, Sun } from 'lucide-react';
+import { ArrowDownFromLine, ArrowUpToLine, Moon, Sun } from 'lucide-react';
 import Aggregates from './components/Aggregates';
 const LazyRepo = React.lazy(() => import('./components/TrendingRepos.jsx'));
 
@@ -17,6 +17,8 @@ function Dashboard() {
   );
   // Use state for Lazy Loading
   const [displayedRepos, setDisplayedRepos] = useState(1);
+  // Use state for chart show button
+  const [showCharts, setShowCharts] = useState(closed);
 
   // Use effect to get data from the server on component mount
   useEffect(() => {
@@ -64,8 +66,16 @@ function Dashboard() {
   }, [repos, displayedRepos]);
 
   return (
-    <div className='Dashboard'>
+    <div className='dashboard'>
+      <button
+        className='chart-button'
+        onClick={() => setShowCharts(!showCharts)}
+      >
+        {showCharts ? <ArrowUpToLine size={40} className='stat-badge'/> : <ArrowDownFromLine size={40} className='stat-badge'/>}
+      </button>
+      <div className={`charts-container ${showCharts ? 'open' : 'closed'}`}>
         <Aggregates aggregates={aggregates} />
+      </div>
       <h1>Top GitHub Repos</h1>
       <div className='darkMode-toggle'>
         <Switch
@@ -81,7 +91,7 @@ function Dashboard() {
       </div>
       <Suspense fallback='Loading...'>
         {repos.length > 0 ? (
-          <LazyRepo repos={repos.slice(0, displayedRepos)}>Rank</LazyRepo>
+          <LazyRepo repos={repos.slice(0, displayedRepos)}></LazyRepo>
         ) : (
           <p>Server came back empty. ¯\_(ツ)_/¯ </p>
         )}

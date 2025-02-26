@@ -4,9 +4,9 @@ function TrendingRepos({ repos }) {
   return (
     <div className='repo-list'>
       {repos.map((repo, index) => (
-        <div className='card-box'>
-          <div className='ext-stuff'>{index}</div>
-          <div key={repo.id} className='repo-card'>
+        <div key={repo.id} className='card-box'>
+          <div className='ext-stuff'>{`#${index + 1}`}</div>
+          <div className='repo-card'>
             <div className='repo-summary'>
               <h3>
                 <a

@@ -1,11 +1,7 @@
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-} from 'recharts';
+import { Bar } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 function Aggregates({ aggregates }) {
   const {
@@ -18,84 +14,99 @@ function Aggregates({ aggregates }) {
     starDistribution = {},
   } = aggregates || {};
 
-  const languageData = languageCounts
-    .map((language) => ({
-      name: language.language,
-      value: language.count,
-    }))
-    .slice(0, 5);
-  const forkData = Object.entries(forkDistribution).map(([range, count]) => ({
-    name: range,
-    value: count,
-  }));
-  const issueData = Object.entries(issueDistribution).map(([range, count]) => ({
-    name: range,
-    value: count,
-  }));
-  const ownerData = ownerCounts
-    .map((owner) => ({
-      name: owner.owner,
-      value: owner.count,
-    }))
-    .slice(0, 5);
-  const ageData = Object.entries(ageDistribution).map(([range, count]) => ({
-    name: range,
-    value: count,
-  }));
-  const starData = Object.entries(starDistribution).map(([range, count]) => ({
-    name: range,
-    value: count,
-  }));
+  const languageData = {
+    labels: languageCounts.slice(0, 5).map((lang) => lang.language),
+    datasets: [
+      {
+        label: 'Top 5 Languages',
+        data: languageCounts.slice(0, 5).map((lang) => lang.count),
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+  const forkData = {
+    labels: Object.keys(forkDistribution),
+    datasets: [
+      {
+        label: 'Fork Distribution',
+        data: Object.values(forkDistribution),
+        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+  const issueData = {
+    labels: Object.keys(issueDistribution),
+    datasets: [
+      {
+        label: 'Issue Distribution',
+        data: Object.values(issueDistribution),
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+  const ownerData = {
+    labels: ownerCounts.slice(0, 5).map((owner) => owner.owner),
+    datasets: [
+      {
+        label: 'Top 5 Owners',
+        data: languageCounts.slice(0, 5).map((owner) => owner.count),
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+  const ageData = {
+    labels: Object.keys(ageDistribution),
+    datasets: [
+      {
+        label: 'Age Distribution',
+        data: Object.values(ageDistribution),
+        backgroundColor: 'rgba(153, 102, 255, 0.6)',
+        borderColor: 'rgba(153, 102, 255, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+  const starData = {
+    labels: Object.keys(starDistribution),
+    datasets: [
+      {
+        label: 'Star Distribution',
+        data: Object.values(starDistribution),
+        backgroundColor: 'rgba(255, 206, 86, 0.6)',
+        borderColor: 'rgba(255, 206, 86, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
 
   return (
     <div className='aggregate-charts'>
-      <ResponsiveContainer width={300} height={200}>
-        <BarChart data={languageData}>
-          <XAxis dataKey='name' />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey='value' fill='blue' />
-        </BarChart>
-      </ResponsiveContainer>
-      <ResponsiveContainer width={300} height={200}>
-        <BarChart data={forkData}>
-          <XAxis dataKey='name' />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey='value' fill='blue' />
-        </BarChart>
-      </ResponsiveContainer>
-      <ResponsiveContainer width={300} height={200}>
-        <BarChart data={issueData}>
-          <XAxis dataKey='name' />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey='value' fill='blue' />
-        </BarChart>
-      </ResponsiveContainer>
-      <ResponsiveContainer width={300} height={200}>
-        <BarChart data={ageData}>
-          <XAxis dataKey='name' />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey='value' fill='blue' />
-        </BarChart>
-      </ResponsiveContainer>
-      <ResponsiveContainer width={300} height={200}>
-        <BarChart data={starData}>
-          <XAxis dataKey='name' />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey='value' fill='blue' />
-        </BarChart>
-      </ResponsiveContainer>
-      {/* <div>{JSON.stringify(timestamp, null, 2)}</div> */}
-      {/* <div>{JSON.stringify(languageCounts, null, 2)}</div> */}
-      {/* <div>{JSON.stringify(forkDistribution, null, 2)}</div> */}
-      {/* <div>{JSON.stringify(issueDistribution, null, 2)}</div> */}
-      {/* <div>{JSON.stringify(ownerCounts, null, 2)}</div> */}
-      {/* <div>{JSON.stringify(ageDistribution, null, 2)}</div> */}
-      {/* <div>{JSON.stringify(starDistribution, null, 2)}</div> */}
+        {/* <div className='chart'>
+        <Bar data={languageData} options={{ responsive: true }} />
+        </div> */}
+        <div className='chart'>
+          <Bar data={forkData} options={{ responsive: true }} />
+        </div>
+        <div className='chart'>
+          <Bar data={issueData} options={{ responsive: true }} />
+        </div>
+        <div className='chart'>
+          <Bar data={ageData} options={{ responsive: true }} />
+        </div>
+        <div className='chart'>
+          <Bar data={starData} options={{ responsive: true }} />
+        </div>
+        {/* <div className='chart'>
+        <Bar data={ownerData} options={{ responsive: true }} />
+        </div> */}
     </div>
   );
 }

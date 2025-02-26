@@ -115,6 +115,10 @@ a:hover {
   border: 2px dashed yellow;
 } */
 
+.dashboard {
+  text-align: center;
+}
+
 .darkMode-toggle {
   position: absolute;
   top: 20px;
@@ -122,26 +126,46 @@ a:hover {
   z-index: 1000;
 }
 
-.Dashboard {
-  text-align: center;
+.chart-button {
+  position: absolute;
+  z-index: 10;
+  top: -10px;
+  right: 80px;
+  display: block;
+  cursor: pointer;
+  border: none;
+  background-color: #ccc;
+  border-radius: 0 0 10px 10px;
+  transition: background 0.3s ease;
+}
+
+.charts-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out;
+  display: block;
+  margin: 0, auto;
+}
+
+.charts-container.open {
+  max-height: 400px;
+  transition: max-height 0.6s ease-in;
 }
 
 .aggregate-charts {
   display: flex;
   align-items: center;
-  max-width: 90%;
-}
-.card-box {
-  display: flex;
-  align-items: center;
-  width: 100%;
+  justify-content: center;
+  max-width: 80%;
+  margin: 0 auto;
+  flex-wrap: wrap;
 }
 
-.ext-stuff {
-  display: flex;
-  padding: 1vh;
-  cursor: default;
-  min-width: 5vh;
+.chart {
+  width: 100%;
+  height: 200px;
+  max-width: 35vh;
+  min-width: 200px;
 }
 
 .repo-list {
@@ -153,6 +177,21 @@ a:hover {
   width: fit-content; /* Set a min width and use a responsive sizing for the width itself. THIS SETTING IS A FUCKING PROBLEM */
   margin: auto;
 }
+
+
+.card-box {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.ext-stuff {
+  /* display: flex; */
+  padding: 1vh;
+  cursor: default;
+  min-width: 5vh;
+}
+
 
 .repo-card {
   background: #f9f9f9;
@@ -166,10 +205,6 @@ a:hover {
   max-width: 800px;
 }
 
-.repo-summary {
-  width: 50%;
-  text-align: start;
-}
 
 .repo-owner {
   font-size: 14px;
@@ -184,15 +219,27 @@ a:hover {
   overflow-wrap: break-word;
 }
 
+.repo-summary {
+  display: flex; /* I added this but it doesnt do shit*/
+  flex-direction: column; /* The fucking too */
+  flex: 1 1 50%;
+  width: 50%;
+  text-align: start;
+}
+
 .repo-stats {
   display: flex;
   /* flex-wrap: wrap; */
   justify-content: flex-end;
   align-items: center;
-  flex: 1 1 50;
-  font-size: 2vh;
+  /* flex: 1 1 50%; */
+  /* flex-shrink: inherit; Does nothing */
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 50%;
+  font-size: 1.5vh;
   cursor: default;
-  width: 50%;
+  width: 40%;
 }
 
 .stat-tile {
@@ -216,11 +263,19 @@ body.dark-mode {
   color: #a0a0a0;
 }
 
-.dark-mode .repo-card {
-  background: #0e0e0e;
+.dark-mode {
+  .repo-card {
+    background: #0e0e0e;
+  }
+  .chart-button {
+    background-color: #222;
+  }
+  .stat-badge{
+    stroke: #a0a0a0;
+  }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 826px) {
   .repo-card {
     display: block;
   }
@@ -231,4 +286,7 @@ body.dark-mode {
     justify-content: flex-end;
     width: 100%;
   }
+  .charts-container.open {
+    max-height: 800px;
+}
 }
