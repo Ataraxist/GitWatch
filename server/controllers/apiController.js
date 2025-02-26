@@ -16,7 +16,7 @@ import { GitHubAggregate, Repo } from '../db.js';
 const apiController = {};
 
 apiController.getGitHubData = async (req, res, next) => {
-  console.log('📈 Getting Trending Github Data!');
+  console.log('🦄 Getting Trending Github Data!');
   const number = req.query.days || 7; // Use 7 Days unless called with a value in params
   try {
     const fromDate = new Date();
@@ -38,7 +38,7 @@ apiController.getGitHubData = async (req, res, next) => {
 };
 
 apiController.getGitHubAggregate = async (req, res, next) => {
-  console.log('📈 Generating Aggregates from Trending Github Data!');
+  console.log('🐠 Getting Aggregates Github Data!');
   try {
     const latestAggregate = await GitHubAggregate.findOne().sort({
       timestamp: -1,

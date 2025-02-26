@@ -1,3 +1,234 @@
-.trending-repos{
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
+/* 1. Use a more-intuitive box-sizing model */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 2. Remove default margin */
+* {
+  margin: 0;
+}
+
+body {
+  /* 3. Add accessible line-height */
+  line-height: 1.5;
+  /* 4. Improve text rendering */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 5. Improve media defaults */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 6. Inherit fonts for form controls */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* 7. Avoid text overflows */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* 8. Improve line wrapping */
+p {
+  text-wrap: pretty;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+/*
+  9. Create a root stacking context
+*/
+#root,
+#__next {
+  isolation: isolate;
+}
+* {
+  font-family: 'Noto Sans', serif;
+  font-optical-sizing: auto;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+/* .repo-container {
+  border: 2px dashed red;
+}
+
+.repo-list {
+  border: 2px dashed purple;
+  background: rgba(255, 0, 0, 0.2); 
+}
+
+.repo-card {
+  border: 2px solid blue;
+  background: rgba(0, 0, 255, 0.1); 
+}
+
+.repo-summary {
+  border: 2px solid cyan;
+}
+
+.repo-owner {
+  border: 2px solid magenta;
+}
+
+.repo-description {
+  border: 2px dotted green;
+}
+
+.repo-stats {
+  border: 2px dashed orange;
+}
+
+.stat-tile {
+  border: 2px dashed yellow;
+} */
+
+.darkMode-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.Dashboard {
+  text-align: center;
+}
+
+.aggregate-charts {
+  display: flex;
+  align-items: center;
+  max-width: 90%;
+}
+.card-box {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.ext-stuff {
+  display: flex;
+  padding: 1vh;
+  cursor: default;
+  min-width: 5vh;
+}
+
+.repo-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1vh;
+  gap: 0.2vh;
+  width: fit-content; /* Set a min width and use a responsive sizing for the width itself. THIS SETTING IS A FUCKING PROBLEM */
+  margin: auto;
+}
+
+.repo-card {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 1.5vh;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 800px;
+}
+
+.repo-summary {
+  width: 50%;
+  text-align: start;
+}
+
+.repo-owner {
+  font-size: 14px;
+  color: gray;
+}
+
+.repo-description {
+  flex: 1 1 50%;
+  font-size: 1.4vh;
+  min-width: 40%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.repo-stats {
+  display: flex;
+  /* flex-wrap: wrap; */
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1 1 50;
+  font-size: 2vh;
+  cursor: default;
+  width: 50%;
+}
+
+.stat-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 10vh;
+  max-width: 80px;
+  /* max-height: 40px; */
+}
+
+.stat-badge {
+  padding: 1vh;
+  min-width: 3vh;
+  min-height: 3vh;
+  text-wrap: none;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #a0a0a0;
+}
+
+.dark-mode .repo-card {
+  background: #0e0e0e;
+}
+
+@media (max-width: 700px) {
+  .repo-card {
+    display: block;
+  }
+  .repo-summary {
+    width: 100%;
+  }
+  .repo-stats {
+    justify-content: flex-end;
+    width: 100%;
+  }
 }

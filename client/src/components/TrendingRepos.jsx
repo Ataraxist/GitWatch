@@ -1,34 +1,57 @@
+import { Telescope, GitFork, Bug, Languages } from 'lucide-react';
+
 function TrendingRepos({ repos }) {
   return (
-    <div className="trending-repos">
-      <h2>Top GitHub Repos</h2>
-      <div className='repo-list'>
-        {repos.map((repo) => (
-          <div key={repo.id} className="repo-card">{repo.name}</div>
-        ))}
-      </div>
+    <div className='repo-list'>
+      {repos.map((repo, index) => (
+        <div className='card-box'>
+          <div className='ext-stuff'>{index}</div>
+          <div key={repo.id} className='repo-card'>
+            <div className='repo-summary'>
+              <h3>
+                <a
+                  href={repo.html_url}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  {repo.name}
+                </a>
+              </h3>
+              <p className='repo-owner'>
+                By{' '}
+                <a
+                  href={repo.owner.html_url}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  {repo.owner.login}
+                </a>
+              </p>
+              <p className='repo-description'>{repo.description}</p>
+            </div>
+            <div className='repo-stats'>
+              <div className='stat-tile' title='Stargazers'>
+                <Telescope size='3.8vh' className='stat-badge' />{' '}
+                {repo.stargazers_count}
+              </div>
+              <div className='stat-tile' title='Forks'>
+                <GitFork size='3.8vh' className='stat-badge' />{' '}
+                {repo.forks_count}
+              </div>
+              <div className='stat-tile' title='Open Issues'>
+                <Bug size='3.8vh' className='stat-badge' />{' '}
+                {repo.open_issues_count}
+              </div>
+              <div className='stat-tile' title='Primary Language'>
+                <Languages size='3.8vh' className='stat-badge' />{' '}
+                {repo.language || '?'}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
 
 export default TrendingRepos;
-/*
-<ul>
-        {repos.map((repo) => (
-          <li key={repo.id}>
-            {/* <div>
-            <img src={repo.owner.avatar_url}> avatar</img>
-            </div>
-              {repo.stargazers_count}
-              {repo.forks_count}
-              {repo.open_issues_count}
-              {repo.language}
-              {repo.created_at}
-              {repo.updated_at}
-              {repo.description}
-            <a href={repo.html_url} target='_blank' rel='noopener noreferrer'>
-              
-            </a>
-          </li>
-      </ul>
-*/

@@ -7,7 +7,7 @@ apiRouter.get(
   '/github/trending',
   apiController.getGitHubData,
   apiController.getGitHubAggregate,
-  (req, res, next) => {
+  (req, res) => {
     console.log('✨ Sending GitHub Trending Data');
     return res.status(200).json(res.locals);
   }
@@ -16,7 +16,7 @@ apiRouter.get(
 apiRouter.get(
   '/github/calculated',
   apiController.getGitHubAggregate,
-  (req, res, next) => {
+  (req, res) => {
     console.log('🔢 Sending GitHub Aggregate Data');
     return res.status(200).json(res.locals.getGitHubAggregate);
   }

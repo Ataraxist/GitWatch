@@ -17,13 +17,13 @@ app.use(express.urlencoded({ extended: true })); // allows for URL encoded data 
 
 // github/stackoverflow API route
 app.use('/api', (req, res, next) => {
-  console.log('🥸 API accessed.');
+  console.log('🔎 API accessed.');
   apiRouter(req, res, next);
 });
 
 // catch-all route handler for any requests to an unknown route
 app.use((req, res) => {
-  console.log('🔒 404 Response Sent!');
+  console.log('😖 404 Response Sent!');
   res.status(404).send('404 Page Not Found');
 });
 
