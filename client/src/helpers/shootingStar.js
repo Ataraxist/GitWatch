@@ -21,7 +21,7 @@ export function startShootingStars() {
       if (Math.random() < 0.5) {
         createShootingStar();
       }
-    }, Math.random() * 6000);
+    }, Math.random() * 5000 + 1000);
 
     // Apparently I need the "ID" for cleanup or my console log complains
     return shootingStarInterval;

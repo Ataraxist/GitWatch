@@ -11,6 +11,7 @@ mongoose
 // Define a schema for GitHub repository data
 const RepoSchema = new mongoose.Schema({
   id: Number,
+  rank: Number,
   name: String,
   full_name: String,
   html_url: String,

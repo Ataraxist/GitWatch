@@ -1,10 +1,13 @@
 import { Bar, Scatter } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
+import { useRef } from 'react';
 import 'chartjs-adapter-date-fns';
-
 Chart.register(...registerables);
 
-function Aggregates({ repos }) {
+function Aggregates({ repos, onSearchChange }) {
+  const barChartRef = useRef(null);
+  const scatterChartRef = useRef(null);
+
   // Get a count of each language
   const languageCounts = repos.reduce((acc, repo) => {
     if (repo.language) {
@@ -45,6 +48,22 @@ function Aggregates({ repos }) {
       },
     },
   };
+
+  const handleBarClick = (event) => {
+    if (!barChartRef.current) return;
+    const chart = barChartRef.current;
+    const elements = chart.getElementsAtEventForMode(
+      event,
+      'nearest',
+      { intersect: true },
+      true
+    );
+    if (elements.length > 0) {
+      const index = elements[0].index;
+      const selectedLanguage = barLanguageData.labels[index];
+      onSearchChange(selectedLanguage);
+    }
+  };
   // Get the data for the scatter plot
   const scatterStarData = {
     datasets: [
@@ -53,6 +72,7 @@ function Aggregates({ repos }) {
         data: repos.map((repo) => ({
           x: new Date(repo.created_at),
           y: repo.stargazers_count,
+          fullDate: repo.created_at,
         })),
         // backgroundColor: 'blue',
       },
@@ -70,13 +90,13 @@ function Aggregates({ repos }) {
       x: {
         type: 'time',
         time: {
-          unit: 'month',
-          tooltipFormat: 'yyyy-MM',
+          unit: 'day',
+          tooltipFormat: 'yyyy-MM-dd',
           displayFormats: {
-            month: 'yyyy-MM',
+            day: 'MMM d',
           },
         },
-        title: { display: true, text: 'Created Date (Year-Month)' },
+        title: { display: true, text: 'Created Date (Last 7 Days)' },
       },
       y: {
         title: { display: true, text: 'Stargazer Count' },
@@ -85,13 +105,40 @@ function Aggregates({ repos }) {
     },
   };
 
+  const handleStarClick = (event) => {
+    if (!scatterChartRef.current) return;
+    const chart = scatterChartRef.current;
+    const elements = chart.getElementsAtEventForMode(
+      event,
+      'nearest',
+      { intersect: true },
+      true
+    );
+    if (elements.length > 0) {
+      const index = elements[0].index;
+      const datasetIndex = elements[0].datasetIndex;
+      const selectedRepo = scatterStarData.datasets[datasetIndex].data[index];
+      onSearchChange(selectedRepo.fullDate);
+    }
+  };
+
   return (
     <div className='aggregate-charts'>
       <div className='chart'>
-        <Scatter data={scatterStarData} options={scatterStarOptions} />
+        <Scatter
+          ref={scatterChartRef}
+          data={scatterStarData}
+          options={scatterStarOptions}
+          onClick={handleStarClick}
+        />
       </div>
       <div className='chart'>
-        <Bar data={barLanguageData} options={barLanguageOptions} />
+        <Bar
+          ref={barChartRef}
+          data={barLanguageData}
+          options={barLanguageOptions}
+          onClick={handleBarClick}
+        />
       </div>
     </div>
   );

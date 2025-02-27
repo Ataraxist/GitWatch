@@ -40,6 +40,7 @@ function updateLimiterSettings(response) {
 export async function fetchGitHubTrendingData(number) {
   const startDate = getDateNDaysAgo(number);
   let page = 1;
+  let rank = 1;
 
   while (true) {
     const url = `https://api.github.com/search/repositories?q=created:>${startDate}&sort=stars&order=desc&per_page=100&page=${page}`;
@@ -56,8 +57,9 @@ export async function fetchGitHubTrendingData(number) {
       updateLimiterSettings(response);
 
       // Process data
-      const parsedGitHubData = response.data.items.map((repo) => ({
+      const parsedGitHubData = response.data.items.map((repo, index) => ({
         id: repo.id,
+        rank: rank + index,
         name: repo.name,
         full_name: repo.full_name,
         html_url: repo.html_url,
@@ -74,6 +76,15 @@ export async function fetchGitHubTrendingData(number) {
         updated_at: repo.updated_at,
         description: repo.description,
       }));
+
+      // Increment rank for next batch
+      rank += parsedGitHubData.length;
+      console.log(
+        parsedGitHubData.map((repo) => ({
+          name: repo.name,
+          rank: repo.rank,
+        }))
+      );
 
       // Save to database
       console.log(
