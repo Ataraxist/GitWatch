@@ -17,76 +17,89 @@ import { createStars } from './helpers/createStars.js';
 const LazyRepo = React.lazy(() => import('./components/TrendingRepos.jsx'));
 
 function Dashboard() {
+  console.log('🚀 Dashboard component mounted.');
+
   // Use states...
   const [repos, setRepos] = useState([]);
   const [isDarkMode, setIsDarkMode] = useState(
     localStorage.getItem('theme') === 'dark'
   );
-  const [displayedRepos, setDisplayedRepos] = useState(1);
+  const [displayedRepos, setDisplayedRepos] = useState(15);
   const [showCharts, setShowCharts] = useState(closed);
   const [showSearch, setShowSearch] = useState(closed);
   const [search, setSearch] = useState('');
 
-  // Use effect to get data from the server on component mount
+  // Fetch GitHub trending data on component mount
   useEffect(() => {
+    console.log('📡 Fetching trending repos from server...');
     axios
       .get('http://localhost:9001/api/github/trending')
       .then((response) => {
+        console.log(`📦 Received ${response.data.getGitHubData.length} repositories.`);
         setRepos(response.data.getGitHubData);
       })
-      .catch((error) => console.error('Error fetching trending repos:', error));
+      .catch((error) => console.error('☠️ Error fetching trending repos:', error));
+
     // Make stars!
+    console.log('✨ Creating star background animation...');
     let starsContainer = createStars();
     let shootingStarInterval = startShootingStars();
+
     // Cleanup
     return () => {
+      console.log('🧹 Cleaning up star animations...');
       if (shootingStarInterval) clearInterval(shootingStarInterval);
       starsContainer.remove();
     };
   }, []);
-  // Dark & Light mode on click handler
+
+  // Dark & Light mode toggle
   const toggleTheme = () => {
     const newTheme = isDarkMode ? 'light' : 'dark';
+    console.log(`🌗 Toggling theme: ${newTheme}`);
     setIsDarkMode(!isDarkMode);
     localStorage.setItem('theme', newTheme);
   };
-  // Use effect to toggle modes
+
+  // Apply theme change when `isDarkMode` updates
   useEffect(() => {
+    console.log(`🎨 Applying ${isDarkMode ? 'dark' : 'light'} mode...`);
     document.body.classList.toggle('dark-mode', isDarkMode);
   }, [isDarkMode]);
-  // Lazy Loader show next 20 logic
+
+  // Lazy Loader logic for infinite scroll
   const loadMoreRef = useRef(null);
   useEffect(() => {
-    // Lazy Loading Logic
+    console.log('🔍 Setting up infinite scroll observer...');
+    
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
+          console.log('⬇️ Loading more repositories...');
           setDisplayedRepos((prev) => Math.min(prev + 5));
         }
       },
       { threshold: 1 }
     );
+
     if (loadMoreRef.current) {
       observer.observe(loadMoreRef.current);
     }
+
     return () => {
+      console.log('🛑 Disconnecting infinite scroll observer...');
       if (observer) observer.disconnect();
     };
   }, [repos, displayedRepos]);
-  // ! WHAT DOES THIS DO??? We are searching all fields simultaneously, but like... how?
+
+  // Complex search across selected fields
+  console.log(`🔎 Filtering repositories with search query: "${search}"`);
   const filteredRepos = repos.filter((repo) =>
     [
       repo.name,
-      // repo.owner?.login,
       repo.description,
       repo.language,
-      // repo.html_url, // URL of the repository
-      // repo.owner?.html_url, // URL of the owner
-      // repo.stargazers_count?.toString(), // Number of stars (convert to string for search)
-      // repo.forks_count?.toString(), // Number of forks
-      // repo.open_issues_count?.toString(), // Open issues count
       repo.created_at, // Creation date
-      // repo.updated_at, // Last updated date
     ].some(
       (field) => field && field.toLowerCase().includes(search.toLowerCase())
     )
@@ -98,7 +111,10 @@ function Dashboard() {
       <div className="search-container">
         <button
           className={`search-button ${showSearch ? 'expanded' : ''}`}
-          onClick={() => setShowSearch(!showSearch)}
+          onClick={() => {
+            console.log(`🔍 Toggling search bar: ${!showSearch}`);
+            setShowSearch(!showSearch);
+          }}
         >
           {showSearch ? (
             <FilterX size={40} className='stat-badge' />
@@ -121,7 +137,10 @@ function Dashboard() {
       {/* Chart Toggle Button */}
       <button
         className='chart-button'
-        onClick={() => setShowCharts(!showCharts)}
+        onClick={() => {
+          console.log(`📊 Toggling chart display: ${!showCharts}`);
+          setShowCharts(!showCharts);
+        }}
       >
         {showCharts ? (
           <ArrowUpToLine size={40} className='stat-badge' />

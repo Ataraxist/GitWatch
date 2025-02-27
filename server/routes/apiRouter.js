@@ -1,34 +1,24 @@
 import express from 'express';
 import apiController from '../controllers/apiController.js';
 
+console.log('🔗 Initializing API Router...');
+
 const apiRouter = express.Router();
 
+// Route to fetch GitHub trending repositories
 apiRouter.get(
   '/github/trending',
-  apiController.getGitHubData,
-  // apiController.getGitHubAggregate,
+  (req, res, next) => {
+    console.log('📡 Incoming request: GET /github/trending');
+    next();
+  },
+  apiController.getGitHubData, // Middleware to fetch GitHub data
   (req, res) => {
     console.log('✨ Sending GitHub Trending Data');
     return res.status(200).json(res.locals);
   }
 );
 
-// apiRouter.get(
-//   '/github/calculated',
-//   apiController.getGitHubAggregate,
-//   (req, res) => {
-//     console.log('🔢 Sending GitHub Aggregate Data');
-//     return res.status(200).json(res.locals.getGitHubAggregate);
-//   }
-// );
-
-// apiRouter.get(
-//   '/stackoverflow/trending',
-//   apiController.getStackOverflowData,
-//   (req, res, next) => {
-//     console.log('🎇 Sending StackOverflow Trending Data');
-//     return res.status(200).json(res.locals.data);
-//   }
-// );
+console.log('✅ API Router setup complete.');
 
 export default apiRouter;
