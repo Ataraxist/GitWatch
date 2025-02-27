@@ -4,7 +4,7 @@ dotenv.config({ path: path.resolve('../server', '.env') });
 import path from 'path';
 import axios from 'axios'; // API requests
 import Bottleneck from 'bottleneck'; // Rate limiting
-import { Repo } from '../db.js'; // Database connection
+import Repo from '../db.js'; // Database connection
 import { getDateNDaysAgo } from './getDateNDaysAgo.js';
 
 // Bottleneck rate limiter setup

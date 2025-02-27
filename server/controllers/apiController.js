@@ -1,17 +1,7 @@
-/*
-TODO Aggregating the Data
-I need to change my package.json to launch both the client and the server.
+// TODO Aggregating the Data
+// I need to change my package.json to launch both the client and the server.
 
-TODO For Stack Overflow:
-* Demoted to Stretch Goal
-The query works, but there is no logic for pushing to the database
-Some things to think about:
-Need to make a new schema for stack overflow results
-Need to also make this scheduled
-Need to also change the date range
-Need to also auto purge=
-*/
-import { GitHubAggregate, Repo } from '../db.js';
+import Repo from '../db.js';
 
 const apiController = {};
 
@@ -37,27 +27,28 @@ apiController.getGitHubData = async (req, res, next) => {
   }
 };
 
-apiController.getGitHubAggregate = async (req, res, next) => {
-  console.log('🐠 Getting Aggregates Github Data!');
-  try {
-    const latestAggregate = await GitHubAggregate.findOne().sort({
-      timestamp: -1,
-    });
+export default apiController;
+// apiController.getGitHubAggregate = async (req, res, next) => {
+//   console.log('🐠 Getting Aggregates Github Data!');
+//   try {
+//     const latestAggregate = await GitHubAggregate.findOne().sort({
+//       timestamp: -1,
+//     });
 
-    if (!latestAggregate) {
-      return res.status(404).json({ error: 'No aggregate data available.' });
-    }
+//     if (!latestAggregate) {
+//       return res.status(404).json({ error: 'No aggregate data available.' });
+//     }
 
-    res.locals.getGitHubAggregate = latestAggregate;
-    return next();
-  } catch (error) {
-    return next({
-      log: `GitHub Aggregate Fetch Error: ${error.message}`,
-      status: 500,
-      message: { error: 'Failed to retrieve GitHub aggregate data' },
-    });
-  }
-};
+//     res.locals.getGitHubAggregate = latestAggregate;
+//     return next();
+//   } catch (error) {
+//     return next({
+//       log: `GitHub Aggregate Fetch Error: ${error.message}`,
+//       status: 500,
+//       message: { error: 'Failed to retrieve GitHub aggregate data' },
+//     });
+//   }
+// };
 
 // apiController.getStackOverflowData = async (req, res, next) => {
 //   console.log('📊 Getting Trending StackOverflow Data!');
@@ -77,5 +68,3 @@ apiController.getGitHubAggregate = async (req, res, next) => {
 //     });
 //   }
 // };
-
-export default apiController;

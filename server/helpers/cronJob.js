@@ -1,12 +1,12 @@
 import cron, { schedule } from 'node-cron';
-import { updateGitHubAggregate } from './updateGitHubAggregate.js';
+// import { updateGitHubAggregate } from './updateGitHubAggregate.js';
 import { fetchGitHubTrendingData } from './fetchGitHubTrendingData.js';
 
 // Run new trending data fetch daily at midnight
 cron.schedule('0 0 * * *', async () => {
     console.log('⏳ Running scheduled GitHub API Fetch update...');
     await fetchGitHubTrendingData(7);
-    await updateGitHubAggregate();
+    // await updateGitHubAggregate();
     console.log('🕒 Finished Running Cron Task...')
     process.exit(0)
 });

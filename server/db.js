@@ -30,42 +30,42 @@ const RepoSchema = new mongoose.Schema({
 const Repo = mongoose.model('Repo', RepoSchema);
 
 // Define a schema for GitHub Aggregate data
-const GitHubAggregateSchema = new mongoose.Schema({
-  timestamp: { type: Date, default: Date.now },
-  languageCounts: [{ language: String, count: Number }],
-  forkDistribution: {
-    '1-10': Number,
-    '11-50': Number,
-    '51-200': Number,
-    '201+': Number,
-  },
-  issueDistribution: {
-    0: Number,
-    '1-10': Number,
-    '11-50': Number,
-    '51-200': Number,
-    '201+': Number,
-  },
-  ownerCounts: [{ owner: String, count: Number }],
-  ageDistribution: {
-    '<1 Year Old': Number,
-    '1 Year Old': Number,
-    '2 Years Old': Number,
-    '3 Years Old': Number,
-    '4 Years Old': Number,
-    '5+ Years Old': Number,
-  },
-  starDistribution: {
-    '1-10': Number,
-    '11-50': Number,
-    '51-200': Number,
-    '201-1000': Number,
-    '1001+': Number,
-  },
-});
-const GitHubAggregate = mongoose.model(
-  'GitHubAggregate',
-  GitHubAggregateSchema
-);
+// const GitHubAggregateSchema = new mongoose.Schema({
+//   timestamp: { type: Date, default: Date.now },
+//   languageCounts: [{ language: String, count: Number }],
+//   forkDistribution: {
+//     '1-10': Number,
+//     '11-50': Number,
+//     '51-200': Number,
+//     '201+': Number,
+//   },
+//   issueDistribution: {
+//     0: Number,
+//     '1-10': Number,
+//     '11-50': Number,
+//     '51-200': Number,
+//     '201+': Number,
+//   },
+//   ownerCounts: [{ owner: String, count: Number }],
+//   ageDistribution: {
+//     '<1 Year Old': Number,
+//     '1 Year Old': Number,
+//     '2 Years Old': Number,
+//     '3 Years Old': Number,
+//     '4 Years Old': Number,
+//     '5+ Years Old': Number,
+//   },
+//   starDistribution: {
+//     '1-10': Number,
+//     '11-50': Number,
+//     '51-200': Number,
+//     '201-1000': Number,
+//     '1001+': Number,
+//   },
+// });
+// const GitHubAggregate = mongoose.model(
+//   'GitHubAggregate',
+//   GitHubAggregateSchema
+// );
 
-export { Repo, GitHubAggregate };
+export default Repo;

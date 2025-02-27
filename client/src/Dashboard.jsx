@@ -1,23 +1,20 @@
 import React, { Suspense, useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-// import TrendingRepos from './components/TrendingRepos';
 import Switch from 'react-switch';
 import { ArrowDownFromLine, ArrowUpToLine, Moon, Sun } from 'lucide-react';
 import Aggregates from './components/Aggregates';
+import { startShootingStars } from './helpers/shootingStar.js';
+import { createStars } from './helpers/createStars.js';
+
 const LazyRepo = React.lazy(() => import('./components/TrendingRepos.jsx'));
 
 function Dashboard() {
-  // Use state for the repos
+  // Use states...
   const [repos, setRepos] = useState([]);
-  // Use state for the aggregates
-  // const [aggregates, setAggregates] = useState(null);
-  // Use state for dark mode
   const [isDarkMode, setIsDarkMode] = useState(
     localStorage.getItem('theme') === 'dark'
   );
-  // Use state for Lazy Loading
   const [displayedRepos, setDisplayedRepos] = useState(1);
-  // Use state for chart show button
   const [showCharts, setShowCharts] = useState(closed);
 
   // Use effect to get data from the server on component mount
@@ -26,9 +23,18 @@ function Dashboard() {
       .get('http://localhost:9001/api/github/trending')
       .then((response) => {
         setRepos(response.data.getGitHubData);
-        // setAggregates(response.data.getGitHubAggregate);
       })
       .catch((error) => console.error('Error fetching trending repos:', error));
+
+    // Make stars!
+    let starsContainer = createStars();
+    let shootingStarInterval = startShootingStars();
+
+    // Cleanup
+    return () => {
+      if (shootingStarInterval) clearInterval(shootingStarInterval);
+      starsContainer.remove();
+    };
   }, []);
 
   // Dark & Light mode on click handler
@@ -71,7 +77,11 @@ function Dashboard() {
         className='chart-button'
         onClick={() => setShowCharts(!showCharts)}
       >
-        {showCharts ? <ArrowUpToLine size={40} className='stat-badge'/> : <ArrowDownFromLine size={40} className='stat-badge'/>}
+        {showCharts ? (
+          <ArrowUpToLine size={40} className='stat-badge' />
+        ) : (
+          <ArrowDownFromLine size={40} className='stat-badge' />
+        )}
       </button>
       <div className={`charts-container ${showCharts ? 'open' : 'closed'}`}>
         <Aggregates repos={repos} />

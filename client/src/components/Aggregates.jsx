@@ -30,6 +30,7 @@ function Aggregates({ repos }) {
   // Set bar chart options
   const barLanguageOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
       tooltip: { enabled: true },
@@ -60,6 +61,7 @@ function Aggregates({ repos }) {
   // Set the options for the scatter plot
   const scatterStarOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
       tooltip: { enabled: true },
@@ -85,8 +87,12 @@ function Aggregates({ repos }) {
 
   return (
     <div className='aggregate-charts'>
-      <Scatter data={scatterStarData} options={scatterStarOptions} />
-      <Bar data={barLanguageData} options={barLanguageOptions} />
+      <div className='chart'>
+        <Scatter data={scatterStarData} options={scatterStarOptions} />
+      </div>
+      <div className='chart'>
+        <Bar data={barLanguageData} options={barLanguageOptions} />
+      </div>
     </div>
   );
 }
