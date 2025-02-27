@@ -1,112 +1,92 @@
-import { Bar } from 'react-chartjs-2';
+import { Bar, Scatter } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
+import 'chartjs-adapter-date-fns';
 
 Chart.register(...registerables);
 
-function Aggregates({ aggregates }) {
-  const {
-    timestamp = null,
-    languageCounts = [],
-    forkDistribution = {},
-    issueDistribution = {},
-    ownerCounts = [],
-    ageDistribution = {},
-    starDistribution = {},
-  } = aggregates || {};
-
-  const languageData = {
-    labels: languageCounts.slice(0, 5).map((lang) => lang.language),
+function Aggregates({ repos }) {
+  // Get a count of each language
+  const languageCounts = repos.reduce((acc, repo) => {
+    if (repo.language) {
+      acc[repo.language] = (acc[repo.language] || 0) + 1;
+    }
+    return acc;
+  }, {});
+  // Sort the languages by making it an array, then sorting, then slicing
+  const sortedLanguages = Object.entries(languageCounts)
+    .map(([language, count]) => ({ language, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+  // Convert the array into a bar chart (top 50 only)
+  const barLanguageData = {
+    labels: sortedLanguages.map((language) => language.language),
     datasets: [
       {
-        label: 'Top 5 Languages',
-        data: languageCounts.slice(0, 5).map((lang) => lang.count),
-        backgroundColor: 'rgba(54, 162, 235, 0.6)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1,
+        label: 'Count by Language',
+        data: sortedLanguages.map((language) => language.count),
       },
     ],
   };
-  const forkData = {
-    labels: Object.keys(forkDistribution),
+  // Set bar chart options
+  const barLanguageOptions = {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { enabled: true },
+    },
+    scales: {
+      x: {
+        title: { display: true, text: 'Language' },
+      },
+      y: {
+        title: { display: true, text: 'Repo Count' },
+        beginAtZero: true,
+      },
+    },
+  };
+  // Get the data for the scatter plot
+  const scatterStarData = {
     datasets: [
       {
-        label: 'Fork Distribution',
-        data: Object.values(forkDistribution),
-        backgroundColor: 'rgba(255, 99, 132, 0.6)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1,
+        label: 'Stars per Repo',
+        data: repos.map((repo) => ({
+          x: new Date(repo.created_at),
+          y: repo.stargazers_count,
+        })),
+        // backgroundColor: 'blue',
       },
     ],
   };
-  const issueData = {
-    labels: Object.keys(issueDistribution),
-    datasets: [
-      {
-        label: 'Issue Distribution',
-        data: Object.values(issueDistribution),
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
+  // Set the options for the scatter plot
+  const scatterStarOptions = {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { enabled: true },
+    },
+    scales: {
+      x: {
+        type: 'time',
+        time: {
+          unit: 'month',
+          tooltipFormat: 'yyyy-MM',
+          displayFormats: {
+            month: 'yyyy-MM',
+          },
+        },
+        title: { display: true, text: 'Created Date (Year-Month)' },
       },
-    ],
-  };
-  const ownerData = {
-    labels: ownerCounts.slice(0, 5).map((owner) => owner.owner),
-    datasets: [
-      {
-        label: 'Top 5 Owners',
-        data: languageCounts.slice(0, 5).map((owner) => owner.count),
-        backgroundColor: 'rgba(54, 162, 235, 0.6)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1,
+      y: {
+        title: { display: true, text: 'Stargazer Count' },
+        beginAtZero: true,
       },
-    ],
-  };
-  const ageData = {
-    labels: Object.keys(ageDistribution),
-    datasets: [
-      {
-        label: 'Age Distribution',
-        data: Object.values(ageDistribution),
-        backgroundColor: 'rgba(153, 102, 255, 0.6)',
-        borderColor: 'rgba(153, 102, 255, 1)',
-        borderWidth: 1,
-      },
-    ],
-  };
-  const starData = {
-    labels: Object.keys(starDistribution),
-    datasets: [
-      {
-        label: 'Star Distribution',
-        data: Object.values(starDistribution),
-        backgroundColor: 'rgba(255, 206, 86, 0.6)',
-        borderColor: 'rgba(255, 206, 86, 1)',
-        borderWidth: 1,
-      },
-    ],
+    },
   };
 
   return (
     <div className='aggregate-charts'>
-        {/* <div className='chart'>
-        <Bar data={languageData} options={{ responsive: true }} />
-        </div> */}
-        <div className='chart'>
-          <Bar data={forkData} options={{ responsive: true }} />
-        </div>
-        <div className='chart'>
-          <Bar data={issueData} options={{ responsive: true }} />
-        </div>
-        <div className='chart'>
-          <Bar data={ageData} options={{ responsive: true }} />
-        </div>
-        <div className='chart'>
-          <Bar data={starData} options={{ responsive: true }} />
-        </div>
-        {/* <div className='chart'>
-        <Bar data={ownerData} options={{ responsive: true }} />
-        </div> */}
+      <Scatter data={scatterStarData} options={scatterStarOptions} />
+      <Bar data={barLanguageData} options={barLanguageOptions} />
     </div>
   );
 }

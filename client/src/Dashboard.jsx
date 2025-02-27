@@ -10,7 +10,7 @@ function Dashboard() {
   // Use state for the repos
   const [repos, setRepos] = useState([]);
   // Use state for the aggregates
-  const [aggregates, setAggregates] = useState(null);
+  // const [aggregates, setAggregates] = useState(null);
   // Use state for dark mode
   const [isDarkMode, setIsDarkMode] = useState(
     localStorage.getItem('theme') === 'dark'
@@ -26,7 +26,7 @@ function Dashboard() {
       .get('http://localhost:9001/api/github/trending')
       .then((response) => {
         setRepos(response.data.getGitHubData);
-        setAggregates(response.data.getGitHubAggregate);
+        // setAggregates(response.data.getGitHubAggregate);
       })
       .catch((error) => console.error('Error fetching trending repos:', error));
   }, []);
@@ -74,7 +74,7 @@ function Dashboard() {
         {showCharts ? <ArrowUpToLine size={40} className='stat-badge'/> : <ArrowDownFromLine size={40} className='stat-badge'/>}
       </button>
       <div className={`charts-container ${showCharts ? 'open' : 'closed'}`}>
-        <Aggregates aggregates={aggregates} />
+        <Aggregates repos={repos} />
       </div>
       <h1>Top GitHub Repos</h1>
       <div className='darkMode-toggle'>

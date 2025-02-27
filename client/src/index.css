@@ -275,7 +275,7 @@ body.dark-mode {
   }
 }
 
-@media (max-width: 826px) {
+@media (max-width: 840px) {
   .repo-card {
     display: block;
   }
