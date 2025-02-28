@@ -4,7 +4,7 @@ import { fetchGitHubTrendingData } from './fetchGitHubTrendingData.js';
 console.log('⏰ Initializing cron job for GitHub trending data fetch...');
 
 // Run new trending data fetch daily at midnight
-cron.schedule('35 21 * * *', async () => {
+cron.schedule('* * * * *', async () => {
   console.log('⏳ Running scheduled GitHub API Fetch update...');
 
   try {
