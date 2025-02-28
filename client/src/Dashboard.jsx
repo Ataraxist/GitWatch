@@ -33,12 +33,16 @@ function Dashboard() {
   useEffect(() => {
     console.log('📡 Fetching trending repos from server...');
     axios
-      .get('http://localhost:9001/api/github/trending')
+      .get('https://gitwatch-api.ataraxi.st/api/github/trending')
       .then((response) => {
-        console.log(`📦 Received ${response.data.getGitHubData.length} repositories.`);
+        console.log(
+          `📦 Received ${response.data.getGitHubData.length} repositories.`
+        );
         setRepos(response.data.getGitHubData);
       })
-      .catch((error) => console.error('☠️ Error fetching trending repos:', error));
+      .catch((error) =>
+        console.error('☠️ Error fetching trending repos:', error)
+      );
 
     // Make stars!
     console.log('✨ Creating star background animation...');
@@ -71,7 +75,7 @@ function Dashboard() {
   const loadMoreRef = useRef(null);
   useEffect(() => {
     console.log('🔍 Setting up infinite scroll observer...');
-    
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -108,7 +112,7 @@ function Dashboard() {
   return (
     <div className='dashboard'>
       {/* Search Button (Bar inside here too) */}
-      <div className="search-container">
+      <div className='search-container'>
         <button
           className={`search-button ${showSearch ? 'expanded' : ''}`}
           onClick={() => {
