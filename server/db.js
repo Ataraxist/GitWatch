@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 
 console.log('🛠️ Initializing MongoDB connection...');
 
-const mongoURI = 'mongodb://localhost:27017/trendingDB';
+const mongoURI = process.env.MONGO_URI;
 
 // Connect to MongoDB
 mongoose
