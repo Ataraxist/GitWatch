@@ -119,7 +119,9 @@ export async function fetchGitHubTrendingData(number) {
 
       // Stop if fewer than 100 results
       if (parsedGitHubData.length < 100 || page === 10) {
-        console.log('🔚 Fewer than 100 results returned OR page 10 reached. Stopping pagination.');
+        console.log(
+          '🔚 Fewer than 100 results returned OR page 10 reached. Stopping pagination.'
+        );
         break;
       }
       page++;

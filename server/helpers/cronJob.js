@@ -15,7 +15,6 @@ cron.schedule('0 0 * * *', async () => {
   }
 
   console.log('🕒 Finished Running Cron Task...');
-  process.exit(0); // Exiting process after task completion
 });
 
 console.log('✅ Cron job scheduled: Runs daily at midnight.');
