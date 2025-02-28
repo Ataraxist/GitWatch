@@ -28,7 +28,7 @@ export function startShootingStars() {
       if (Math.random() < 0.5) {
         createShootingStar();
       }
-    }, Math.random() * 4000); // Adjust this for star frequency
+    }, Math.random() * 10000); // Adjust this for star frequency
 
     console.log('⏳ Shooting star interval started.');
 
