@@ -44,13 +44,16 @@ Create a .env file in the server/ directory and add:
 
 4. **Run the Application**
    ```sh
-   npm install
+   # From the server directory
+   npm run dev
+   # From the client directory
+   npm run server
 
 5. **Access the App**
    ```sh
    # Frontend URL
     http://localhost:5173
-    # Backend API URL
+   # Backend API URL
     http://localhost:9001/api/github/trending
 
 ## 📊 How It Works
