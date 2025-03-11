@@ -1,16 +1,16 @@
 export function createStars() {
-  console.log('✨ Initializing starry background...');
+  // console.log('✨ Initializing starry background...');
 
   // Prevent multiple overlays from being created
   if (document.querySelector('.stars-overlay')) {
-    console.log('⚠️ Star overlay already exists. Skipping creation.');
+    // console.log('⚠️ Star overlay already exists. Skipping creation.');
     return;
   }
 
   let starsContainer = document.createElement('div');
   starsContainer.classList.add('stars-overlay');
   document.body.appendChild(starsContainer);
-  console.log('🌌 Stars overlay added to the DOM.');
+  // console.log('🌌 Stars overlay added to the DOM.');
 
   for (let i = 0; i < 75; i++) {
     let star = document.createElement('div');
@@ -27,9 +27,7 @@ export function createStars() {
     starsContainer.appendChild(star);
   }
 
-  console.log(
-    '🌠 Created 75 stars with random positions and twinkle durations.'
-  );
+  // console.log('🌠 Created 75 stars with random positions and twinkle durations.');
 
   // Return container so it can be cleaned up
   return starsContainer;

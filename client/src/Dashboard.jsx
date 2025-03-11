@@ -17,7 +17,7 @@ import { createStars } from './helpers/createStars.js';
 const LazyRepo = React.lazy(() => import('./components/TrendingRepos.jsx'));
 
 function Dashboard() {
-  console.log('🚀 Dashboard component mounted.');
+  // console.log('🚀 Dashboard component mounted.');
 
   // Use states...
   const [repos, setRepos] = useState([]);
@@ -32,13 +32,11 @@ function Dashboard() {
 
   // Fetch GitHub trending data on component mount
   useEffect(() => {
-    console.log('📡 Fetching trending repos from server...');
+    // console.log('📡 Fetching trending repos from server...');
     axios
       .get('https://gitwatch-api.ataraxi.st/api/github/trending')
       .then((response) => {
-        console.log(
-          `📦 Received ${response.data.getGitHubData.length} repositories.`
-        );
+        // console.log(`📦 Received ${response.data.getGitHubData.length} repositories.`);
         setRepos(response.data.getGitHubData);
       })
       .catch((error) =>
@@ -46,13 +44,13 @@ function Dashboard() {
       );
 
     // Make stars!
-    console.log('✨ Creating star background animation...');
+    // console.log('✨ Creating star background animation...');
     let starsContainer = createStars();
     let shootingStarInterval = startShootingStars();
 
     // Cleanup
     return () => {
-      console.log('🧹 Cleaning up star animations...');
+      // console.log('🧹 Cleaning up star animations...');
       if (shootingStarInterval) clearInterval(shootingStarInterval);
       starsContainer.remove();
     };
@@ -61,25 +59,25 @@ function Dashboard() {
   // Dark & Light mode toggle
   const toggleTheme = () => {
     const newTheme = isDarkMode ? 'light' : 'dark';
-    console.log(`🌗 Toggling theme: ${newTheme}`);
+    // console.log(`🌗 Toggling theme: ${newTheme}`);
     setIsDarkMode(!isDarkMode);
     localStorage.setItem('theme', newTheme);
   };
 
   // Apply theme change when `isDarkMode` updates
   useEffect(() => {
-    console.log(`🎨 Applying ${isDarkMode ? 'dark' : 'light'} mode...`);
+    // console.log(`🎨 Applying ${isDarkMode ? 'dark' : 'light'} mode...`);
     document.body.classList.toggle('dark-mode', isDarkMode);
 
     // Restart shooting stars when dark mode is enabled
     let shootingStarInterval;
     if (isDarkMode) {
-      console.log('🌙 Dark mode enabled. Restarting shooting stars...');
+      // console.log('🌙 Dark mode enabled. Restarting shooting stars...');
       shootingStarInterval = startShootingStars();
     }
 
     return () => {
-      console.log('🛑 Stopping shooting stars...');
+      // console.log('🛑 Stopping shooting stars...');
       if (shootingStarInterval) clearInterval(shootingStarInterval);
     };
   }, [isDarkMode]);
@@ -87,13 +85,13 @@ function Dashboard() {
   // Lazy Loader logic for infinite scroll
   const loadMoreRef = useRef(null);
   useEffect(() => {
-    console.log('🔍 Setting up infinite scroll observer...');
+    // console.log('🔍 Setting up infinite scroll observer...');
 
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
           setLoading(true);
-          console.log('⬇️ Loading more repositories...');
+          // console.log('⬇️ Loading more repositories...');
           setDisplayedRepos((prev) => Math.min(prev + 5));
 
           setTimeout(() => setLoading(false), 1000);
@@ -107,13 +105,13 @@ function Dashboard() {
     }
 
     return () => {
-      console.log('🛑 Disconnecting infinite scroll observer...');
+      // console.log('🛑 Disconnecting infinite scroll observer...');
       if (observer) observer.disconnect();
     };
   }, [loading]);
 
   // Complex search across selected fields
-  console.log(`🔎 Filtering repositories with search query: "${search}"`);
+  // console.log(`🔎 Filtering repositories with search query: "${search}"`);
   const filteredRepos = repos.filter((repo) =>
     [
       repo.name,
@@ -132,7 +130,7 @@ function Dashboard() {
         <button
           className={`search-button ${showSearch ? 'expanded' : ''}`}
           onClick={() => {
-            console.log(`🔍 Toggling search bar: ${!showSearch}`);
+            // console.log(`🔍 Toggling search bar: ${!showSearch}`);
             setShowSearch(!showSearch);
           }}
         >
@@ -158,7 +156,7 @@ function Dashboard() {
       <button
         className='chart-button'
         onClick={() => {
-          console.log(`📊 Toggling chart display: ${!showCharts}`);
+          // console.log(`📊 Toggling chart display: ${!showCharts}`);
           setShowCharts(!showCharts);
         }}
       >
