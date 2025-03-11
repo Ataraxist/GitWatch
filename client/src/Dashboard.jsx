@@ -28,6 +28,7 @@ function Dashboard() {
   const [showCharts, setShowCharts] = useState(closed);
   const [showSearch, setShowSearch] = useState(closed);
   const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(false);
 
   // Fetch GitHub trending data on component mount
   useEffect(() => {
@@ -79,8 +80,11 @@ function Dashboard() {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
+          setLoading(true);
           console.log('⬇️ Loading more repositories...');
           setDisplayedRepos((prev) => Math.min(prev + 5));
+
+          setTimeout(() => setLoading(false), 1000);
         }
       },
       { threshold: 1 }
@@ -94,7 +98,7 @@ function Dashboard() {
       console.log('🛑 Disconnecting infinite scroll observer...');
       if (observer) observer.disconnect();
     };
-  }, [repos, displayedRepos]);
+  }, [loading]);
 
   // Complex search across selected fields
   console.log(`🔎 Filtering repositories with search query: "${search}"`);

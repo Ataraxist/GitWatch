@@ -1,9 +1,14 @@
 // import mongoose to enforce schema requirements
 import mongoose from 'mongoose';
+import dotenv from 'dotenv'
+dotenv.config()
 
 console.log('🛠️ Initializing MongoDB connection...');
 
 const mongoURI = process.env.MONGO_URI;
+console.log("🔍 MONGO_URI:", process.env.MONGO_URI);
+console.log("🔍 GITHUB_TOKEN:", process.env.GITHUB_TOKEN);
+
 
 // Connect to MongoDB
 mongoose

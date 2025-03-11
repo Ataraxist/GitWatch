@@ -114,6 +114,18 @@ a:hover {
 .stat-tile {
   border: 2px dashed yellow;
 } */
+html, body {
+  height: 100%; /* Ensures full height */
+  min-height: 100vh; /* Prevents short pages from collapsing */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column; /* Ensures content flows properly */
+}
+
+#root {
+  flex: 1; /* Ensures the app stretches to full height */
+}
 
 .dashboard {
   text-align: center;
