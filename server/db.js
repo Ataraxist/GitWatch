@@ -28,8 +28,12 @@ const RepoSchema = new mongoose.Schema({
   open_issues_count: Number, // Number of open issues
   language: String, // Primary programming language used
   created_at: Date, // Date repo was created
-  updated_at: Date, // Last updated timestamp
   description: String, // Repo description
+  updated_at: { 
+    type: Date, 
+    default: Date.now, 
+    expires: 691200 // 8 days in seconds (8 * 24 * 60 * 60)
+  },
 });
 
 console.log('📜 Repo schema defined.');
