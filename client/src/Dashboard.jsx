@@ -70,6 +70,18 @@ function Dashboard() {
   useEffect(() => {
     console.log(`🎨 Applying ${isDarkMode ? 'dark' : 'light'} mode...`);
     document.body.classList.toggle('dark-mode', isDarkMode);
+
+    // Restart shooting stars when dark mode is enabled
+    let shootingStarInterval;
+    if (isDarkMode) {
+      console.log('🌙 Dark mode enabled. Restarting shooting stars...');
+      shootingStarInterval = startShootingStars();
+    }
+
+    return () => {
+      console.log('🛑 Stopping shooting stars...');
+      if (shootingStarInterval) clearInterval(shootingStarInterval);
+    };
   }, [isDarkMode]);
 
   // Lazy Loader logic for infinite scroll

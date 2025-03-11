@@ -114,14 +114,6 @@ a:hover {
 .stat-tile {
   border: 2px dashed yellow;
 } */
-html, body {
-  height: 100%; /* Ensures full height */
-  min-height: 100vh; /* Prevents short pages from collapsing */
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column; /* Ensures content flows properly */
-}
 
 #root {
   flex: 1; /* Ensures the app stretches to full height */
@@ -192,10 +184,9 @@ html, body {
   z-index: 9;
   top: 1px;
   right: 193px;
-} */
-
-.search-button.expanded input {
-  width: 140px; 
+}
+*/ .search-button.expanded input {
+  width: 140px;
 }
 
 .aggregate-charts {
@@ -316,6 +307,9 @@ html, body {
 
 body.dark-mode {
   background: linear-gradient(to top, #0e0e0e, black 90%);
+  background-attachment: fixed; 
+  background-size: cover;
+  background-repeat: no-repeat;
   color: #a0a0a0;
 }
 
@@ -323,7 +317,8 @@ body.dark-mode {
   .repo-card {
     background: #0e0e0e;
   }
-  .chart-button, .search-button {
+  .chart-button,
+  .search-button {
     background-color: #222;
   }
   .stat-badge {
@@ -348,7 +343,7 @@ body.dark-mode {
   .charts-container.open {
     max-height: 800px;
   }
-  .title{
+  .title {
     padding-top: 30px;
   }
 }
